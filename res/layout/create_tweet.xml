@@ -1,0 +1,56 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ToDoEditActivity" >
+
+    <Button
+        android:id="@+id/btnSubmitTweet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:onClick="editTodoItem"
+        style="@style/ButtonText"
+     	android:background="@drawable/button_twitter_gb"
+        android:text="@string/label_tweet" />
+
+    <ImageView
+        android:id="@+id/ivCurrentProfImg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:src="@drawable/ic_launcher" />
+
+    <TextView
+        android:id="@+id/ivCurrentName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/ivCurrentProfImg"
+        android:text="@string/label_current_name" />
+
+    <TextView
+        android:id="@+id/ivCurrentUserName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ivCurrentName"
+        android:layout_toRightOf="@+id/ivCurrentProfImg"
+        android:text="@string/label_current_username" />
+
+    <EditText
+        android:id="@+id/etTweetBody"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/btnSubmitTweet"
+        android:ems="10"
+        android:hint="@string/label_tweet_hint"
+        android:inputType="textMultiLine" >
+
+        <requestFocus />
+    </EditText>
+
+</RelativeLayout>

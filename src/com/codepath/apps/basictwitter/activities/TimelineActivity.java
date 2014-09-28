@@ -2,22 +2,23 @@ package com.codepath.apps.basictwitter.activities;
 
 import java.util.ArrayList;
 
-import org.apache.http.Header;
 import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.Toast;
 
-import com.activeandroid.query.From;
 import com.codepath.apps.basictwitter.R;
 import com.codepath.apps.basictwitter.adapters.TweetArrayAdapter;
 import com.codepath.apps.basictwitter.helpers.EndlessScrollListener;
@@ -103,6 +104,17 @@ public class TimelineActivity extends Activity {
 		return maxId;
 	}
 
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+	    getMenuInflater().inflate(R.menu.photos, menu);
+	    return true;
+	}
+	
+	public void composeTweet(MenuItem mi){
+		Intent i = new Intent(this,ComposeTweetActivity.class);
+		startActivityForResult(i, 2);		
+	}
 	
 	public static boolean isConnectivityAvailable(Context ctx){
 		ConnectivityManager cm = (ConnectivityManager) ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
