@@ -1,4 +1,30 @@
-<<<<<<< HEAD
+TwitterClient
+=============
+Hours:7
+
+Completed stories:
+User can sign in to Twitter using OAuth login
+User can view the tweets from their home timeline
+        User should be displayed the username, name, and body for each tweet
+        User should be displayed the relative timestamp for each tweet "8m", "7h"
+        Optional: Links in tweets are clickable and will launch the web browser (see autolink)
+
+
+Stories Not Attempted:
+
+    Advanced: User can refresh tweets timeline by pulling down to refresh (i.e pull-to-refresh)
+    Advanced: User can open the twitter app offline and see last loaded tweets
+    Tweets are persisted into sqlite and can be displayed from the local DB
+    Advanced: User can tap a tweet to display a "detailed" view of that tweet
+    Advanced: User can select "reply" from detail view to respond to a tweet
+    Advanced: Improve the user interface and theme the app to feel "twitter branded"
+    Bonus: User can see embedded image media within the tweet detail view
+    Bonus: Compose activity is replaced with a modal overlay
+
+
+
+
+
 # RestClientTemplate
 
 ## Overview
@@ -245,6 +271,3 @@ t.save();
 
 That's all you need to get started. From here, hook up your activities and their behavior, adjust your models and add more REST endpoints.
 =======
-TwitterClient
-=============
->>>>>>> 930ed11eb1cb9a0c7b1ed7d4460851b36657a441
