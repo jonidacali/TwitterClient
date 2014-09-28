@@ -3,6 +3,7 @@ package com.codepath.apps.basictwitter.activities;
 import java.util.ArrayList;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import android.app.Activity;
 import android.content.Context;
@@ -33,6 +34,9 @@ public class TimelineActivity extends Activity {
 	private ArrayAdapter<Tweet> aTweets;
 	private ListView lvTweets;
 	long maxTweetId = Long.MAX_VALUE;
+	private final int REQUEST_CODE = 80;
+	final Context context = this;
+
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +47,7 @@ public class TimelineActivity extends Activity {
 		populateTimeline(1, 0);
 		lvTweets = (ListView) findViewById(R.id.lvTweets);
 		tweets = new ArrayList<Tweet>();
-		aTweets =  new TweetArrayAdapter(this, tweets);
+		aTweets =  new TweetArrayAdapter(context, tweets);
 		//attach adapter to listView
 		lvTweets.setAdapter(aTweets);
 		
@@ -74,7 +78,7 @@ public class TimelineActivity extends Activity {
 	}
 	
 	public void customLoadMoreDataFromApi(long sinceId) {    	
-    	if(isConnectivityAvailable(this)){
+    	if(isConnectivityAvailable(context)){
     		client.getHomeTimeline(sinceId, maxTweetId, new JsonHttpResponseHandler(){
     			@Override
     			public void onSuccess(JSONArray json) {
@@ -104,6 +108,9 @@ public class TimelineActivity extends Activity {
 		return maxId;
 	}
 
+	public void replyTweet(){
+		
+	}
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -113,8 +120,32 @@ public class TimelineActivity extends Activity {
 	
 	public void composeTweet(MenuItem mi){
 		Intent i = new Intent(this,ComposeTweetActivity.class);
-		startActivityForResult(i, 2);		
+		startActivityForResult(i, REQUEST_CODE);		
 	}
+	
+	
+	@Override  
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){  
+		super.onActivityResult(requestCode, resultCode, data);                    
+	    if(requestCode==REQUEST_CODE) {  
+	    	String status = data.getStringExtra("status");
+	    	client.postTweet(status, new JsonHttpResponseHandler(){
+    			@Override
+    			public void onSuccess(JSONObject json) {
+    				Tweet newTweet = Tweet.fromJson(json);
+    				aTweets.add(newTweet);
+    			}
+    			
+				@Override
+    			public void onFailure(Throwable e, String s) {
+    				Log.d("debug", e.toString());
+    				Log.d("debug", s.toString());
+    			}
+    		});
+	    	
+	    	aTweets.notifyDataSetChanged();
+        }  
+	}  
 	
 	public static boolean isConnectivityAvailable(Context ctx){
 		ConnectivityManager cm = (ConnectivityManager) ctx.getSystemService(Context.CONNECTIVITY_SERVICE);

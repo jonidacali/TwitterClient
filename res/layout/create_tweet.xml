@@ -2,29 +2,32 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="10dp"
     tools:context=".ToDoEditActivity" >
 
     <Button
         android:id="@+id/btnSubmitTweet"
+        style="@style/ButtonText"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="80dp"
+        android:layout_alignBottom="@+id/tvCurrentUserName"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:onClick="editTodoItem"
-        style="@style/ButtonText"
-     	android:background="@drawable/button_twitter_gb"
+        android:background="@drawable/button_twitter_gb"
+        android:onClick="createTweet"
         android:text="@string/label_tweet" />
 
     <ImageView
         android:id="@+id/ivCurrentProfImg"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
+        android:layout_marginRight="10dp"
         android:src="@drawable/ic_launcher" />
 
     <TextView
-        android:id="@+id/ivCurrentName"
+        android:id="@+id/tvCurrentName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -32,10 +35,10 @@
         android:text="@string/label_current_name" />
 
     <TextView
-        android:id="@+id/ivCurrentUserName"
+        android:id="@+id/tvCurrentUserName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/ivCurrentName"
+        android:layout_below="@+id/tvCurrentName"
         android:layout_toRightOf="@+id/ivCurrentProfImg"
         android:text="@string/label_current_username" />
 
@@ -47,6 +50,8 @@
         android:layout_alignParentRight="true"
         android:layout_below="@+id/btnSubmitTweet"
         android:ems="10"
+        android:layout_marginTop="10dp"
+        android:background = "@android:color/transparent"
         android:hint="@string/label_tweet_hint"
         android:inputType="textMultiLine" >
 

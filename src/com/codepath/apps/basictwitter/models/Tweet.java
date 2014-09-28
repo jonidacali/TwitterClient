@@ -28,7 +28,23 @@ public class Tweet {
 		return user;
 	}
 	
-	private static Tweet fromJson(JSONObject jsonObject){
+	public void setBody(String body) {
+		this.body = body;
+	}
+
+	public void setUid(long uid) {
+		this.uid = uid;
+	}
+
+	public void setCreatedAt(String createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+	
+	public static Tweet fromJson(JSONObject jsonObject){
 		Tweet tweet = new Tweet();
 		//Extract json to populate member vars
 		try{
@@ -65,8 +81,4 @@ public class Tweet {
 		return tweets;
 	}
 	
-//	@Override
-//	public String toString() {
-//		return getBody() + " - " + getUser().getScreenName();
-//	}
 }
