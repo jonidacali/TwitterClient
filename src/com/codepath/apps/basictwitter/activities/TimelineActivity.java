@@ -13,11 +13,10 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.codepath.apps.basictwitter.R;
@@ -43,7 +42,7 @@ public class TimelineActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_timeline);
 		//get instance of twitter client
-		client = TwitterApplication.getRestClient();	
+		client = TwitterApplication.getRestClient();
 		populateTimeline(1, 0);
 		lvTweets = (ListView) findViewById(R.id.lvTweets);
 		tweets = new ArrayList<Tweet>();
@@ -127,13 +126,14 @@ public class TimelineActivity extends Activity {
 	@Override  
     protected void onActivityResult(int requestCode, int resultCode, Intent data){  
 		super.onActivityResult(requestCode, resultCode, data);                    
-	    if(requestCode==REQUEST_CODE) {  
+	    if(requestCode==REQUEST_CODE && resultCode == RESULT_OK) {  
 	    	String status = data.getStringExtra("status");
 	    	client.postTweet(status, new JsonHttpResponseHandler(){
     			@Override
     			public void onSuccess(JSONObject json) {
-    				Tweet newTweet = Tweet.fromJson(json);
-    				aTweets.add(newTweet);
+    				Tweet newTweet = Tweet.fromJson(json);        
+    			    aTweets.insert(newTweet, 0);
+    		    	aTweets.notifyDataSetChanged();
     			}
     			
 				@Override
@@ -142,8 +142,6 @@ public class TimelineActivity extends Activity {
     				Log.d("debug", s.toString());
     			}
     		});
-	    	
-	    	aTweets.notifyDataSetChanged();
         }  
 	}  
 	
