@@ -6,14 +6,40 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class Tweet {
+import com.activeandroid.Model;
+import com.activeandroid.annotation.Column;
+import com.activeandroid.annotation.Column.ForeignKeyAction;
+import com.activeandroid.annotation.Table;
+
+@Table(name = "tweets")
+public class Tweet extends Model{
+	@Column(name = "body")
 	private String body;
+	@Column(name = "uid", unique = true, onUniqueConflict = Column.ConflictAction.REPLACE)
 	private long uid;
+	@Column(name = "createdAt", index=true)
 	private String createdAt;
+	@Column(name = "user", onUpdate = ForeignKeyAction.CASCADE, onDelete = ForeignKeyAction.CASCADE)
 	private User user;
+	@Column(name = "retweetCount")
 	private int retweetCount;
+	@Column(name = "favoriteCount")
 	private int favoriteCount;
 	
+	public Tweet (){
+		super();
+	}
+	
+	public Tweet (int uid, String body, String createdAt, int retweetCount, int favoriteCount, User user){
+		super();
+		this.uid = uid;
+		this.body = body;
+		this.createdAt = createdAt;
+		this.retweetCount = retweetCount;
+		this.favoriteCount = favoriteCount;
+		this.user = user;
+	}
+
 	public String getBody() {
 		return body;
 	}
@@ -98,6 +124,19 @@ public class Tweet {
 			}
 		}
 		return tweets;
+	}
+	
+	public static void saveTweetsArrayList(JSONArray jsonArray){
+		ArrayList<Tweet> tweets;
+		tweets = fromJSONArray(jsonArray);
+		for(Tweet t : tweets){
+			t.saveTweet();
+		}
+	}
+
+	private void saveTweet() {
+		user.save();
+		this.save();
 	}
 	
 }

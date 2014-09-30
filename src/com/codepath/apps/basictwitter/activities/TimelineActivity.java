@@ -66,6 +66,9 @@ public class TimelineActivity extends Activity {
 				ArrayList<Tweet> batch = Tweet.fromJSONArray(json);
 				maxTweetId = updateMaxId(batch);
 				aTweets.addAll(batch);
+				
+				//Save tweets in db
+				Tweet.saveTweetsArrayList(json);
 			}
 			
 			@Override
@@ -84,6 +87,8 @@ public class TimelineActivity extends Activity {
     				ArrayList<Tweet> batch = Tweet.fromJSONArray(json);
     				maxTweetId = updateMaxId(batch);
     				aTweets.addAll(batch);
+    				//Save tweets in db
+    				Tweet.saveTweetsArrayList(json);
     			}
     			
 				@Override
