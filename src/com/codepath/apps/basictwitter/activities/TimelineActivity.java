@@ -14,11 +14,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.activeandroid.ActiveAndroid;
 import com.codepath.apps.basictwitter.R;
 import com.codepath.apps.basictwitter.TwitterApplication;
 import com.codepath.apps.basictwitter.adapters.TweetArrayAdapter;
@@ -41,9 +41,11 @@ public class TimelineActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_timeline);
+		ActiveAndroid.setLoggingEnabled(true); 
+		
 		//get instance of twitter client
 		client = TwitterApplication.getRestClient();
-		populateTimeline(1, 0);
+		customLoadMoreData(1,0);
 		lvTweets = (ListView) findViewById(R.id.lvTweets);
 		tweets = new ArrayList<Tweet>();
 		aTweets =  new TweetArrayAdapter(context, tweets);
@@ -54,19 +56,26 @@ public class TimelineActivity extends Activity {
 		lvTweets.setOnScrollListener(new EndlessScrollListener() {
 		    @Override
 		    public void onLoadMore(int page, int totalItemsCount) {
-                 customLoadMoreDataFromApi(totalItemsCount); 
+                 customLoadMoreData(totalItemsCount, maxTweetId); 
 		    }
     	});
 	}
 	
-	public void populateTimeline(long sinceId, long maxId){
-		client.getHomeTimeline(sinceId, maxId, new JsonHttpResponseHandler(){
+	public void customLoadMoreData(long sinceId, long maxId) {    	
+    	if(isConnectivityAvailable(context)){
+    		timelineTweetsFromApi(sinceId, maxId);
+		} else {
+			timelineTweetsFromDB();
+		}
+	}
+	
+	public void timelineTweetsFromApi(long since_id, long max_id){
+		client.getHomeTimeline(since_id, max_id, new JsonHttpResponseHandler(){
 			@Override
 			public void onSuccess(JSONArray json) {
 				ArrayList<Tweet> batch = Tweet.fromJSONArray(json);
 				maxTweetId = updateMaxId(batch);
 				aTweets.addAll(batch);
-				
 				//Save tweets in db
 				Tweet.saveTweetsArrayList(json);
 			}
@@ -79,29 +88,9 @@ public class TimelineActivity extends Activity {
 		});
 	}
 	
-	public void customLoadMoreDataFromApi(long sinceId) {    	
-    	if(isConnectivityAvailable(context)){
-    		client.getHomeTimeline(sinceId, maxTweetId, new JsonHttpResponseHandler(){
-    			@Override
-    			public void onSuccess(JSONArray json) {
-    				ArrayList<Tweet> batch = Tweet.fromJSONArray(json);
-    				maxTweetId = updateMaxId(batch);
-    				aTweets.addAll(batch);
-    				//Save tweets in db
-    				Tweet.saveTweetsArrayList(json);
-    			}
-    			
-				@Override
-    			public void onFailure(Throwable e, String s) {
-    				Log.d("debug", e.toString());
-    				Log.d("debug", s.toString());
-    			}
-    		});
-		} else {
-			Toast.makeText(this, R.string.body_label, Toast.LENGTH_SHORT).show();
-		}
+	public void timelineTweetsFromDB(){
+		
 	}
-	
 	private long updateMaxId(ArrayList<Tweet> tweets) {
 		//iterate through tweets to find new maxId
 		long maxId = 0;
