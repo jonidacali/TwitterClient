@@ -1,6 +1,6 @@
 TwitterClient
 =============
-Hours:7
+Hours:11
 
 Completed stories:
 
@@ -15,6 +15,8 @@ Completed stories:
     * User can click "Compose" icon on action bar on the top right
     * User can then enter a new tweet and post this to tweeter
     * User is taken back to home timeline with new tweet visible in timeline
+
+Advanced: Improve user interface and theme the app to feel "twitter branded"
 
 Stories Not Attempted:
 
