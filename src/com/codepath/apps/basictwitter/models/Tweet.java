@@ -11,7 +11,9 @@ public class Tweet {
 	private long uid;
 	private String createdAt;
 	private User user;
-
+	private int retweetCount;
+	private int favoriteCount;
+	
 	public String getBody() {
 		return body;
 	}
@@ -28,10 +30,18 @@ public class Tweet {
 		return user;
 	}
 	
+	public int getRetweetCount(){
+		return retweetCount;
+	}
+	
+	public int getFavoriteCount(){
+		return favoriteCount;
+	}
+	
 	public void setBody(String body) {
 		this.body = body;
 	}
-
+	
 	public void setUid(long uid) {
 		this.uid = uid;
 	}
@@ -44,6 +54,14 @@ public class Tweet {
 		this.user = user;
 	}
 	
+	public void setRetweetCount(int retweetCount){
+		this.retweetCount = retweetCount;
+	}
+	
+	public void setFavoriteCount(int favoriteCount){
+		this.favoriteCount = favoriteCount;
+	}
+	
 	public static Tweet fromJson(JSONObject jsonObject){
 		Tweet tweet = new Tweet();
 		//Extract json to populate member vars
@@ -52,7 +70,8 @@ public class Tweet {
 			tweet.uid = jsonObject.getLong("id");
 			tweet.createdAt = jsonObject.getString("created_at");
 			tweet.user = User.fromJson(jsonObject.getJSONObject("user"));
-			
+			tweet.retweetCount = jsonObject.getInt("retweet_count");
+			tweet.favoriteCount = jsonObject.getInt("favorite_count");
 		} catch (JSONException e){
 			e.printStackTrace();
 			return null;

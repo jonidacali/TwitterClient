@@ -36,6 +36,7 @@
 	        android:layout_alignLeft="@+id/tvName"
 	        android:layout_below="@+id/tvName"
 	        android:textSize="12sp"
+	        android:layout_marginTop="5dp"
 	        android:autoLink="all"
 	        android:clickable="true"
 	        android:text="@string/body_label" />
@@ -64,6 +65,7 @@
 	        android:id="@+id/rvActions"
 	        android:layout_width="match_parent"
 	        android:layout_height="match_parent"
+	        android:paddingTop="10dp"
 	        android:layout_below="@+id/tvBody" >
 
 	        <ImageView
@@ -93,6 +95,22 @@
 	            android:layout_centerHorizontal="true"
 	            android:textSize="12sp"
 	            android:text="@string/reply_label" />
+
+	        <ImageView
+	            android:id="@+id/imageView1"
+	            android:layout_width="15dp"
+	            android:layout_height="15dp"
+	            android:layout_alignParentTop="true"
+	            android:layout_toLeftOf="@+id/tvRetweet"
+	            android:src="@drawable/retweet" />
+
+	        <ImageView
+	            android:id="@+id/imageView2"
+	            android:layout_width="15dp"
+	            android:layout_height="15dp"
+	            android:layout_alignParentTop="true"
+	            android:layout_toLeftOf="@+id/tvLike"
+	            android:src="@drawable/favorite" />
 	        
 		</RelativeLayout>
 

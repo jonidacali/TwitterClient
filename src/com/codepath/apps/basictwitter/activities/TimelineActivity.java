@@ -20,9 +20,9 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.codepath.apps.basictwitter.R;
+import com.codepath.apps.basictwitter.TwitterApplication;
 import com.codepath.apps.basictwitter.adapters.TweetArrayAdapter;
 import com.codepath.apps.basictwitter.helpers.EndlessScrollListener;
-import com.codepath.apps.basictwitter.helpers.TwitterApplication;
 import com.codepath.apps.basictwitter.helpers.TwitterClient;
 import com.codepath.apps.basictwitter.models.Tweet;
 import com.loopj.android.http.JsonHttpResponseHandler;

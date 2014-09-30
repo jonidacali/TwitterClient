@@ -51,6 +51,8 @@ public class TweetArrayAdapter extends ArrayAdapter<Tweet> {
 		TextView tvBody = (TextView) v.findViewById(R.id.tvBody);
 		TextView tvName = (TextView) v.findViewById(R.id.tvName);
 		TextView tvTimePosted = (TextView) v.findViewById(R.id.tvTimePosted);
+		TextView tvRetweets = (TextView) v.findViewById(R.id.tvRetweet);
+		TextView tvFavorited = (TextView) v.findViewById(R.id.tvLike);
 		
 		ivProfImage.setImageResource(android.R.color.transparent);
 		ImageLoader imageLoader = ImageLoader.getInstance();
@@ -59,10 +61,12 @@ public class TweetArrayAdapter extends ArrayAdapter<Tweet> {
 		tvUserName.setText("@" + tweet.getUser().getScreenName());
 		tvName.setText(tweet.getUser().getName());
 		tvBody.setText(tweet.getBody());
-		//tvTimePosted.setText(DateUtils.getRelativeTimeSpanString(tweet.getCreatedAt()*1000, now.getTime(), MIN_IN_MILLIS));
-
+		tvRetweets.setText(String.valueOf(tweet.getRetweetCount()));
+		tvFavorited.setText(String.valueOf(tweet.getFavoriteCount()));
+		
 		DateFormat formatter = new SimpleDateFormat("EEE LLL d k:m:s zzz yyyy");
 		Date date;
+		
 		try {
 			date = formatter.parse(tweet.getCreatedAt());
 			tvTimePosted.setText(DateUtils.getRelativeTimeSpanString(date.getTime(), now.getTime(), MIN_IN_MILLIS, FORMAT_ABBREV_RELATIVE));

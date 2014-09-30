@@ -10,9 +10,10 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.codepath.apps.basictwitter.R;
-import com.codepath.apps.basictwitter.helpers.TwitterApplication;
+import com.codepath.apps.basictwitter.TwitterApplication;
 import com.codepath.apps.basictwitter.models.User;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -57,8 +58,12 @@ public class ComposeTweetActivity extends Activity{
 	public void createTweet(View v){
 		String status = etTweetBody.getText().toString();  
         Intent returnIntent=new Intent();  
-        returnIntent.putExtra("status",status);
-        setResult(RESULT_OK,returnIntent);  
-        finish();//finishing activity  
+        if(status != null && status.length()>0) {
+        	returnIntent.putExtra("status",status);
+        	setResult(RESULT_OK,returnIntent);  
+        	finish();//finishing activity 
+		} else {
+        	Toast.makeText(this, getResources().getText(R.string.label_no_tweet), Toast.LENGTH_SHORT).show();
+        } 
 	}
 }

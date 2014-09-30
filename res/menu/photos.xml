@@ -4,7 +4,7 @@
         android:id="@+id/action_create_tweet"
         android:orderInCategory="100"
         android:showAsAction="always"
-        android:icon="@drawable/ic_compose_tweet"
+        android:icon="@drawable/ic_create_tweet"
         android:onClick="composeTweet"
         android:title="@string/action_create_tweet"/>
 
