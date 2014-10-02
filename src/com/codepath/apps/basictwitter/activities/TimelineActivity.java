@@ -14,6 +14,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -33,7 +36,8 @@ public class TimelineActivity extends Activity {
 	private ArrayAdapter<Tweet> aTweets;
 	private ListView lvTweets;
 	long maxTweetId = Long.MAX_VALUE;
-	private final int REQUEST_CODE = 80;
+	private final int REQUEST_CODE_POST = 80;
+	private final int REQUEST_CODE_REPLY = 120;
 	final Context context = this;
 
 	
@@ -59,13 +63,27 @@ public class TimelineActivity extends Activity {
                  customLoadMoreData(totalItemsCount, maxTweetId); 
 		    }
     	});
+		
+		setupViewListener();
+	}
+	
+	private void setupViewListener(){
+		lvTweets.setOnItemClickListener(new OnItemClickListener(){
+			@Override
+			public void onItemClick(AdapterView<?> parent, View v, int position, long rowId) {
+				Tweet tweet = ((Tweet) parent.getItemAtPosition(position));
+				Intent i = new Intent(context,ShowTweetDetailActivity.class);				
+				i.putExtra("tweet", tweet);
+				startActivityForResult(i, REQUEST_CODE_REPLY);
+			}
+		});
 	}
 	
 	public void customLoadMoreData(long sinceId, long maxId) {    	
     	if(isConnectivityAvailable(context)){
     		timelineTweetsFromApi(sinceId, maxId);
 		} else {
-			timelineTweetsFromDB();
+			timelineTweetsFromDB(sinceId, maxId);
 		}
 	}
 	
@@ -88,9 +106,13 @@ public class TimelineActivity extends Activity {
 		});
 	}
 	
-	public void timelineTweetsFromDB(){
-		
+	public void timelineTweetsFromDB(long since_id, long max_id){
+		ArrayList<Tweet> batch = Tweet.getOrderedTweetsArrayList(since_id, max_id);
+		maxTweetId = updateMaxId(batch);
+		aTweets.addAll(batch);
 	}
+	
+	
 	private long updateMaxId(ArrayList<Tweet> tweets) {
 		//iterate through tweets to find new maxId
 		long maxId = 0;
@@ -113,14 +135,14 @@ public class TimelineActivity extends Activity {
 	
 	public void composeTweet(MenuItem mi){
 		Intent i = new Intent(this,ComposeTweetActivity.class);
-		startActivityForResult(i, REQUEST_CODE);		
+		startActivityForResult(i, REQUEST_CODE_POST);		
 	}
 	
 	
 	@Override  
     protected void onActivityResult(int requestCode, int resultCode, Intent data){  
 		super.onActivityResult(requestCode, resultCode, data);                    
-	    if(requestCode==REQUEST_CODE && resultCode == RESULT_OK) {  
+	    if(requestCode==REQUEST_CODE_POST && resultCode == RESULT_OK) {  
 	    	String status = data.getStringExtra("status");
 	    	client.postTweet(status, new JsonHttpResponseHandler(){
     			@Override
@@ -135,8 +157,26 @@ public class TimelineActivity extends Activity {
     				Log.d("debug", e.toString());
     				Log.d("debug", s.toString());
     			}
-    		});
+    		});	
         }  
+	    
+	    if (requestCode == REQUEST_CODE_REPLY && resultCode == RESULT_OK){
+	    	String status = data.getStringExtra("status");
+	    	long in_reply_to_status_id = data.getLongExtra("in_reply_to_status_id", 1L);
+	    	client.replyToTweet(status, in_reply_to_status_id, new JsonHttpResponseHandler(){
+	    		@Override
+    			public void onSuccess(JSONObject json) {
+	    			Toast.makeText(TimelineActivity.this, "Reply posted", Toast.LENGTH_SHORT).show();
+	    			
+    			}
+    			
+				@Override
+    			public void onFailure(Throwable e, String s) {
+					Log.d("debug", e.toString());    			
+					Toast.makeText(TimelineActivity.this, "Failed - try again", Toast.LENGTH_SHORT).show();
+				}
+	    	});
+	    }
 	}  
 	
 	public static boolean isConnectivityAvailable(Context ctx){

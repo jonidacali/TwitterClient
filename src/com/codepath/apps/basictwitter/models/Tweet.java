@@ -1,18 +1,30 @@
 package com.codepath.apps.basictwitter.models;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.R.bool;
+import android.os.Parcel;
+import android.os.Parcelable;
+import android.text.format.DateUtils;
+
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Column.ForeignKeyAction;
 import com.activeandroid.annotation.Table;
+import com.activeandroid.query.From;
+import com.activeandroid.query.Select;
 
 @Table(name = "tweets")
-public class Tweet extends Model{
+public class Tweet extends Model implements Parcelable{
 	@Column(name = "body")
 	private String body;
 	@Column(name = "uid", unique = true, onUniqueConflict = Column.ConflictAction.REPLACE)
@@ -23,20 +35,28 @@ public class Tweet extends Model{
 	private User user;
 	@Column(name = "retweetCount")
 	private int retweetCount;
+	@Column(name = "retweeted")
+	private boolean retweeted;
 	@Column(name = "favoriteCount")
 	private int favoriteCount;
+	@Column(name = "favorited")
+	private boolean favorited;
+	
+	private static int TOTAL_TWEETS = 20;
 	
 	public Tweet (){
 		super();
 	}
 	
-	public Tweet (int uid, String body, String createdAt, int retweetCount, int favoriteCount, User user){
+	public Tweet (int uid, String body, String createdAt, int retweetCount, int favoriteCount, boolean retweeted, boolean favorited, User user){
 		super();
 		this.uid = uid;
 		this.body = body;
 		this.createdAt = createdAt;
 		this.retweetCount = retweetCount;
+		this.retweeted = retweeted;
 		this.favoriteCount = favoriteCount;
+		this.favorited = favorited;
 		this.user = user;
 	}
 
@@ -139,4 +159,99 @@ public class Tweet extends Model{
 		this.save();
 	}
 	
+	public static ArrayList<Tweet> getOrderedTweetsArrayList(long since_id, long max_id) {
+        String queryArgs = "";
+        
+        if(since_id > 0){
+        	queryArgs += ("uid > " + since_id); 
+        }
+        if(max_id > 0){
+        	if(queryArgs.length() > 0){
+        		queryArgs += (" AND ");
+        	}
+        	queryArgs +=("uid <= " + max_id);
+        }
+        	
+        From query = new Select()
+          			.from(Tweet.class)
+          			.where(queryArgs)
+          			.orderBy("uid DSC")
+          			.limit(TOTAL_TWEETS);
+          			
+		List<Tweet> tweets = query.execute();
+		return new ArrayList<Tweet>(tweets);
+    }
+
+	@Override
+	public int describeContents() {
+		return 0;
+	}
+
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		dest.writeString(body);
+		dest.writeLong(uid);
+		dest.writeParcelable(user, flags);
+		dest.writeString(createdAt);
+		dest.writeInt(retweeted ? 1 : 0);
+		dest.writeInt(favorited ? 1 : 0);
+		dest.writeInt(retweetCount);
+		dest.writeInt(favoriteCount);
+		
+	}
+
+	public CharSequence getTimePostedLong() {
+		Date now = new Date(System.currentTimeMillis());		
+		DateFormat formatter = new SimpleDateFormat("EEE LLL d k:m:s zzz yyyy");
+		Date date;
+		try {
+			date = formatter.parse(this.getCreatedAt());
+			String fullDate = new SimpleDateFormat("h:mm a - d EEE yyyy").format(date);	
+			return fullDate;
+		} catch (ParseException e) {
+			e.printStackTrace();
+		} 
+		return null;
+	}
+
+	public CharSequence getTimePostedShort() {
+		Date now = new Date(System.currentTimeMillis());		
+		DateFormat formatter = new SimpleDateFormat("EEE LLL d k:m:s zzz yyyy");
+		Date date;
+		try {
+			date = formatter.parse(this.getCreatedAt());
+			String relativeDate = DateUtils.getRelativeTimeSpanString(date.getTime(), now.getTime(), DateUtils.MINUTE_IN_MILLIS, DateUtils.FORMAT_ABBREV_RELATIVE).toString();
+			String[] time;
+			time = relativeDate.split(" ");
+			
+			String abrevRelTime = time[0]+time[1].substring(0, 1);
+			return abrevRelTime;
+		} catch (ParseException e) {
+			e.printStackTrace();
+		} 
+		return null;
+	}
+
+	
+	protected Tweet(Parcel in) {
+		body = in.readString();
+		uid = in.readLong();
+		user = in.readParcelable(User.class.getClassLoader());
+		createdAt = in.readString();
+		retweetCount = in.readInt();
+		retweeted = in.readInt() == 0 ? false : true;
+		favoriteCount = in.readInt();
+		favorited = in.readInt() == 0 ? false : true;
+		}
+
+	public static final Parcelable.Creator<Tweet> CREATOR = new Parcelable.Creator<Tweet>() {
+		@Override
+		public Tweet createFromParcel(Parcel in) {
+			return new Tweet(in);
+		}
+		@Override
+		public Tweet[] newArray(int size) {
+			return new Tweet[size];
+		}
+	};
 }

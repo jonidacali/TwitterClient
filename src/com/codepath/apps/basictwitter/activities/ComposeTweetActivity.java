@@ -58,10 +58,15 @@ public class ComposeTweetActivity extends Activity{
 	public void createTweet(View v){
 		String status = etTweetBody.getText().toString();  
         Intent returnIntent=new Intent();  
-        if(status != null && status.length()>0) {
-        	returnIntent.putExtra("status",status);
-        	setResult(RESULT_OK,returnIntent);  
-        	finish();//finishing activity 
+        if(status != null){
+        	int msgLength = status.length();
+        	if(msgLength > 0 && msgLength <= 140) {
+	        	returnIntent.putExtra("status",status);
+	        	setResult(RESULT_OK,returnIntent);  
+	        	finish();//finishing activity 
+        	} else if (msgLength > 140){
+        		Toast.makeText(this, getResources().getText(R.string.label_no_tweet), Toast.LENGTH_SHORT).show();
+        	}
 		} else {
         	Toast.makeText(this, getResources().getText(R.string.label_no_tweet), Toast.LENGTH_SHORT).show();
         } 

@@ -55,6 +55,12 @@
             android:theme="@style/Theme.HighlightCopy"
             android:label="" >
         </activity>
+        <activity
+            android:name="com.codepath.apps.basictwitter.activities.ShowTweetDetailActivity"
+            android:theme="@style/Theme.HighlightCopy"
+            android:label="" >
+        </activity>
+        
     </application>
 
 </manifest>

@@ -16,20 +16,21 @@ Completed stories:
     * User can then enter a new tweet and post this to tweeter
     * User is taken back to home timeline with new tweet visible in timeline
 
-*Advanced: Improve user interface and theme the app to feel "twitter branded"
+*Advanced: Improve user interface and theme the app to feel "twitter branded" (fav/retweet/reply/ share images not clickable)
 
+*Advanced: User can tap a tweet to display a "detailed" view of that tweet (not all elements of detail view are present)
+
+*Advanced: User can reply from detailed view to respond to tweet
+
+Attempted
 *Advanced: User can open the twitter app offline and see latest loaded tweets
-Tweets are persisted into sqlite and can be displayed from the local db
-
+ *Tweets are persisted into sqlite but cannot be displayed from db - I tried to put something in place but it is not tested hence I don't expect it to work
 
 
 Stories Not Attempted:
+(Optional) Characted count when composing tweet
 
 Advanced: User can refresh tweets timeline by pulling down to refresh (i.e pull-to-refresh)
-
-Advanced: User can tap a tweet to display a "detailed" view of that tweet
-
-Advanced: User can select "reply" from detail view to respond to a tweet
 
 Bonus: User can see embedded image media within the tweet detail view
 

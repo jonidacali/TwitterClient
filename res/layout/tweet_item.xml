@@ -2,7 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent" 
-    android:padding="7dp">
+    android:padding="7dp"
+    android:descendantFocusability="blocksDescendants">
 
     <ImageView
         android:id="@+id/ivProfileImg"
@@ -26,6 +27,7 @@
 	        android:layout_alignParentLeft="true"
 	        android:textStyle="bold"
 	        android:paddingRight="5dp"
+	        android:textColor="#292f33"
 	        android:textSize="12sp"
 	        android:text="@string/name_label" />
 	
@@ -62,14 +64,14 @@
 	    
 	
 	    <RelativeLayout
-	        android:id="@+id/rvActions"
+	        android:id="@+id/ivShare"
 	        android:layout_width="match_parent"
 	        android:layout_height="match_parent"
 	        android:paddingTop="10dp"
 	        android:layout_below="@+id/tvBody" >
 
 	        <ImageView
-	            android:id="@+id/tvReply"
+	            android:id="@+id/ivReply"
 	            android:layout_width="15dp"
 	            android:layout_height="15dp"
 	            android:layout_alignParentLeft="true"
@@ -97,7 +99,7 @@
 	            android:text="@string/reply_label" />
 
 	        <ImageView
-	            android:id="@+id/imageView1"
+	            android:id="@+id/ivRetweet"
 	            android:layout_width="15dp"
 	            android:layout_height="15dp"
 	            android:layout_alignParentTop="true"
@@ -105,7 +107,7 @@
 	            android:src="@drawable/retweet" />
 
 	        <ImageView
-	            android:id="@+id/imageView2"
+	            android:id="@+id/ivFavorite"
 	            android:layout_width="15dp"
 	            android:layout_height="15dp"
 	            android:layout_alignParentTop="true"
