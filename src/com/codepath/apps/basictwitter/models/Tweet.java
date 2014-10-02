@@ -206,7 +206,7 @@ public class Tweet extends Model implements Parcelable{
 		Date date;
 		try {
 			date = formatter.parse(this.getCreatedAt());
-			String fullDate = new SimpleDateFormat("h:mm a - d EEE yyyy").format(date);	
+			String fullDate = new SimpleDateFormat("h:mm a - d LLL yyyy").format(date);	
 			return fullDate;
 		} catch (ParseException e) {
 			e.printStackTrace();
