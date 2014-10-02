@@ -1,6 +1,6 @@
 TwitterClient
 =============
-Hours:12
+Hours:19
 
 Completed stories:
 
@@ -22,12 +22,14 @@ Completed stories:
 
 *Advanced: User can reply from detailed view to respond to tweet
 
-Attempted
+Attempted stories:
+
 *Advanced: User can open the twitter app offline and see latest loaded tweets
  *Tweets are persisted into sqlite but cannot be displayed from db - I tried to put something in place but it is not tested hence I don't expect it to work
 
 
 Stories Not Attempted:
+
 (Optional) Characted count when composing tweet
 
 Advanced: User can refresh tweets timeline by pulling down to refresh (i.e pull-to-refresh)
