@@ -46,7 +46,6 @@ public abstract class TweetsListFragment extends Fragment {
 		tweets = new ArrayList<Tweet>();
 		aTweets =  new TweetArrayAdapter(getActivity(), tweets);
 		client = TwitterApplication.getRestClient();
-		
 	}
 	
 	@Override
@@ -54,12 +53,15 @@ public abstract class TweetsListFragment extends Fragment {
 			Bundle savedInstanceState) {
 		//false to not to attach it to the container yet
 		View v = inflater.inflate(R.layout.fragment_tweets_list, container, false);
+		
 		//Assign view references
 		lvTweets = (ListView) v.findViewById(R.id.lvTweets);
+		
 		//attach adapter to listView
 		lvTweets.setAdapter(aTweets);
 		context = getActivity();
 		
+		//Load initial data
 		customLoadMoreData(1,0);
 
 		lvTweets.setOnScrollListener(new EndlessScrollListener() {
@@ -85,14 +87,8 @@ public abstract class TweetsListFragment extends Fragment {
 		});
 	}
 	
-	
 	public void customLoadMoreData(long sinceId, long maxId) {    	
     	if(isConnectivityAvailable(getActivity())){
-//    		if(timelineTag.equals(HOME_TIMELINE)){
-//    			homeTimelineTweetsFromApi(sinceId, maxId);
-//    		} else {
-//    			mentionsTimelineTweetsFromApi(sinceId, maxId);
-//    		}
     		this.fireClientRequest(sinceId, maxId, new JsonHttpResponseHandler(){
     			@Override
     			public void onSuccess(JSONArray json) {
@@ -107,59 +103,58 @@ public abstract class TweetsListFragment extends Fragment {
     			public void onFailure(Throwable e, String s) {
     				Log.d("debug", e.toString());
     				Log.d("debug", s.toString());
-    			}
-    			
+    			}	
     		});
 		} else {
 			this.fireDbRequest(sinceId, maxId);
 		}
 	}
 
-	public void homeTimelineTweetsFromApi(long since_id, long max_id){
-		client.getHomeTimeline(since_id, max_id, new JsonHttpResponseHandler(){
-			@Override
-			public void onSuccess(JSONArray json) {
-				ArrayList<Tweet> batch = Tweet.fromJSONArray(json);
-				maxTweetId = updateMaxId(batch);
-				addAll(batch);
-				//Save tweets in db
-				Tweet.saveTweetsArrayList(json);
-			}
-			
-			@Override
-			public void onFailure(Throwable e, String s) {
-				Log.d("debug", e.toString());
-				Log.d("debug", s.toString());
-			}
-		});
-	}
+//	public void homeTimelineTweetsFromApi(long since_id, long max_id){
+//		client.getHomeTimeline(since_id, max_id, new JsonHttpResponseHandler(){
+//			@Override
+//			public void onSuccess(JSONArray json) {
+//				ArrayList<Tweet> batch = Tweet.fromJSONArray(json);
+//				maxTweetId = updateMaxId(batch);
+//				addAll(batch);
+//				//Save tweets in db
+//				Tweet.saveTweetsArrayList(json);
+//			}
+//			
+//			@Override
+//			public void onFailure(Throwable e, String s) {
+//				Log.d("debug", e.toString());
+//				Log.d("debug", s.toString());
+//			}
+//		});
+//	}
 	
-	public void homeTimelineTweetsFromDB(long since_id, long max_id){
-		ArrayList<Tweet> batch = Tweet.getOrderedTweetsArrayList(since_id, max_id);
-		maxTweetId = updateMaxId(batch);
-		addAll(batch);
-	}
-	
-	
-	private void mentionsTimelineTweetsFromApi(long since_id, long max_id) {
-		client.getMentionsTimeline(since_id, max_id, new JsonHttpResponseHandler(){
-			@Override
-			public void onSuccess(JSONArray json) {
-				ArrayList<Tweet> batch = Tweet.fromJSONArray(json);
-				maxTweetId = updateMaxId(batch);
-				addAll(batch);
-				//Save tweets in db
-				Tweet.saveTweetsArrayList(json);
-			}
-			
-			@Override
-			public void onFailure(Throwable e, String s) {
-				Log.d("debug", e.toString());
-				Log.d("debug", s.toString());
-			}
-		});
-		
-	}
+//	public void homeTimelineTweetsFromDB(long since_id, long max_id){
+//		ArrayList<Tweet> batch = Tweet.getOrderedTweetsArrayList(since_id, max_id);
+//		maxTweetId = updateMaxId(batch);
+//		addAll(batch);
+//	}
+//	
+//	
+//	private void mentionsTimelineTweetsFromApi(long since_id, long max_id) {
+//		client.getMentionsTimeline(since_id, max_id, new JsonHttpResponseHandler(){
+//			@Override
+//			public void onSuccess(JSONArray json) {
+//				ArrayList<Tweet> batch = Tweet.fromJSONArray(json);
+//				maxTweetId = updateMaxId(batch);
+//				addAll(batch);
+//				//Save tweets in db
+//				Tweet.saveTweetsArrayList(json);
+//			}
+//			
+//			@Override
+//			public void onFailure(Throwable e, String s) {
+//				Log.d("debug", e.toString());
+//				Log.d("debug", s.toString());
+//			}
+//		});
+//		
+//	}
 	private long updateMaxId(ArrayList<Tweet> tweets) {
 		//iterate through tweets to find new maxId
 		long maxId = 0;
