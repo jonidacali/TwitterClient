@@ -16,8 +16,8 @@ import android.widget.AdapterView.OnItemClickListener;
 
 import com.codepath.apps.basictwitter.TwitterApplication;
 import com.codepath.apps.basictwitter.activities.ShowTweetDetailActivity;
-import com.codepath.apps.basictwitter.helpers.EndlessScrollListener;
 import com.codepath.apps.basictwitter.helpers.TwitterClient;
+import com.codepath.apps.basictwitter.listeners.EndlessScrollListener;
 import com.codepath.apps.basictwitter.models.Tweet;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.JsonHttpResponseHandler;
