@@ -72,6 +72,11 @@ public class TimelineActivity extends FragmentActivity {
 		startActivityForResult(i, REQUEST_CODE_POST);		
 	}
 	
+	public void viewProfile(MenuItem mi){
+		Intent i = new Intent(this, ProfileActivity.class);
+		startActivity(i);
+	}
+	
 	public void replyTweet(){
 		
 	}

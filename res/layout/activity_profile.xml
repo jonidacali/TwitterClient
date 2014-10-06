@@ -1,0 +1,91 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.codepath.apps.basictwitter.activities.ProfileActivity" 
+    android:background="#f5f8fa">
+
+    <fragment
+        android:id="@+id/fragmentUserTimeline"
+        android:name="com.codepath.apps.basictwitter.fragments.UserTimelineFragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/llFollowers"
+        tools:layout="@layout/fragment_tweets_list" />
+
+    <RelativeLayout
+        android:id="@+id/rlHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:padding="10dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true" >
+        
+        <ImageView 
+            android:id="@+id/ivProfImage"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:layout_alignParentLeft="true"
+	        android:layout_alignParentTop="true"
+	        android:layout_marginRight="10dp"
+	        android:src="@drawable/ic_launcher"
+            />
+
+        <TextView
+            android:id="@+id/tvName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="14dp"
+            android:layout_toRightOf="@+id/ivProfImage"
+            android:paddingRight="5dp"
+            android:text="@string/name_label"
+            android:textColor="#292f33"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvTagline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvName"
+            android:layout_toRightOf="@+id/ivProfImage"
+            android:paddingRight="5dp"
+            android:text="@string/tagline_label"
+            android:textColor="#292f33"
+            android:textSize="12sp" />
+        
+    </RelativeLayout>
+	<LinearLayout
+	    android:id="@+id/llFollowers"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentLeft="true"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:layout_below="@+id/rlHeader" >
+        
+        <TextView
+            android:id="@+id/tvFollowers"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/followers_label"
+            android:textColor="#292f33"
+            android:layout_marginRight="10dp"
+            android:textSize="12sp" />
+        
+        <TextView
+            android:id="@+id/tvFollowing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/following_label"
+            android:textColor="#292f33"
+            android:textSize="12sp" />
+        
+    </LinearLayout>
+</RelativeLayout>

@@ -19,19 +19,28 @@ public class User extends Model implements Parcelable{
 	private String name;
 	@Column(name = "screenName")
 	private String screenName;
+	@Column(name = "tagline")
+	private String tagline;
 	@Column(name = "profileImgUrl")
 	private String profileImgUrl;
-	
+	@Column(name = "followersCount")
+	private int followersCount;
+	@Column(name = "followingCount")
+	private int followingCount;
+
 	public User(){
 		super();
 	}
 	
-	public User (int uid, String name, String screenName, String profileImageUrl){
+	public User (int uid, String name, String screenName, String tagline, int followersCount, int followingCount, String profileImageUrl){
 		super();
 		this.uid = uid;
 		this.name = name;
 		this.screenName =  screenName;
+		this.tagline = tagline;
 		this.profileImgUrl = profileImageUrl;
+		this.followersCount = followersCount;
+		this.followingCount = followingCount;
 	}
 
 	public String getName() {
@@ -45,18 +54,31 @@ public class User extends Model implements Parcelable{
 	public String getScreenName() {
 		return screenName;
 	}
+	public String getTagline() {
+		return tagline;
+	}
 
 	public String getProfileImgUrl() {
 		return profileImgUrl;
 	}
 	
+	public int getFollowersCount() {
+		return followersCount;
+	}
+	
+	public int getFollowingCount() {
+		return followingCount;
+	}
 	public static User fromJson(JSONObject json) {
 		User u = new User();
 		try{
 			u.name = json.getString("name");
 			u.uid = json.getLong("id");
 			u.screenName = json.getString("screen_name");
+			u.tagline =  json.getString("description");
 			u.profileImgUrl = json.getString("profile_image_url");
+			u.followersCount = json.getInt("followers_count");
+			u.followingCount = json.getInt("friends_count");
 		} catch (JSONException e){
 			e.printStackTrace();
 			return null;
@@ -97,5 +119,4 @@ public class User extends Model implements Parcelable{
 			return new User[size];
 		}
 	};
-
 }
