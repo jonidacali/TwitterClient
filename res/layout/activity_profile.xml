@@ -13,7 +13,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/llFollowers"
+        android:layout_below="@+id/s"
         tools:layout="@layout/fragment_tweets_list" />
 
     <RelativeLayout
@@ -57,35 +57,57 @@
             android:paddingRight="5dp"
             android:text="@string/tagline_label"
             android:textColor="#292f33"
+            android:lines="2"
+            android:ellipsize="end"
             android:textSize="12sp" />
         
     </RelativeLayout>
-	<LinearLayout
-	    android:id="@+id/llFollowers"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentLeft="true"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:layout_below="@+id/rlHeader" >
-        
-        <TextView
-            android:id="@+id/tvFollowers"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/followers_label"
-            android:textColor="#292f33"
-            android:layout_marginRight="10dp"
-            android:textSize="12sp" />
-        
-        <TextView
-            android:id="@+id/tvFollowing"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/following_label"
-            android:textColor="#292f33"
-            android:textSize="12sp" />
-        
-    </LinearLayout>
+
+	<View
+	    android:id="@+id/s"
+	    android:layout_width="fill_parent"
+	    android:layout_height="1dip"
+	    android:layout_alignParentLeft="true"
+	    android:layout_below="@+id/rlFollowers"
+	    android:background="#ccd6dd" />
+
+	<RelativeLayout
+	    android:id="@+id/rlFollowers"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignParentLeft="true"
+	    android:layout_below="@+id/rlHeader"
+	    android:paddingLeft="10dp"
+	    android:paddingRight="10dp" >
+
+	    <TextView
+	        android:id="@+id/tvTweetsCount"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="@string/tweets_label"
+	        android:textColor="#292f33"
+	        android:layout_alignParentLeft="true"
+	        android:textSize="12sp" />
+
+	    <TextView
+	        android:id="@+id/tvFollowing"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignParentRight="true"
+	        android:text="@string/following_label"
+	        android:textColor="#292f33"
+	        android:textSize="12sp" />
+
+	    <TextView
+	        android:id="@+id/tvFollowers"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignParentTop="true"
+	        android:layout_centerHorizontal="true"
+	        android:text="@string/followers_label"
+	        android:textColor="#292f33"
+	        android:textSize="12sp" />
+
+	</RelativeLayout>
+
 </RelativeLayout>

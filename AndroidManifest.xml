@@ -62,7 +62,7 @@
         </activity>
         <activity
             android:name="com.codepath.apps.basictwitter.activities.ProfileActivity"
-            android:label="@string/title_activity_profile" >
+            android:theme="@style/Theme.HighlightCopy" >
         </activity>
     </application>
 

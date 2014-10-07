@@ -35,13 +35,12 @@ public abstract class TweetsListFragment extends Fragment {
 	private ArrayAdapter<Tweet> aTweets;
 	protected ListView lvTweets;
 	private Context context;
-	private final int REQUEST_CODE_POST = 80;
+//	private final int REQUEST_CODE_POST = 80;
 	private final int REQUEST_CODE_REPLY = 120;
 	long maxTweetId = Long.MAX_VALUE;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		tweets = new ArrayList<Tweet>();
 		aTweets =  new TweetArrayAdapter(getActivity(), tweets);
@@ -51,17 +50,10 @@ public abstract class TweetsListFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		//false to not to attach it to the container yet
 		View v = inflater.inflate(R.layout.fragment_tweets_list, container, false);
-		
-		//Assign view references
 		lvTweets = (ListView) v.findViewById(R.id.lvTweets);
-		
-		//attach adapter to listView
 		lvTweets.setAdapter(aTweets);
 		context = getActivity();
-		
-		//Load initial data
 		customLoadMoreData(1,0);
 
 		lvTweets.setOnScrollListener(new EndlessScrollListener() {

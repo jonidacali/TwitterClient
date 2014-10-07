@@ -27,12 +27,14 @@ public class User extends Model implements Parcelable{
 	private int followersCount;
 	@Column(name = "followingCount")
 	private int followingCount;
+	@Column(name = "tweetsCount")
+	private int tweetsCount;
 
 	public User(){
 		super();
 	}
 	
-	public User (int uid, String name, String screenName, String tagline, int followersCount, int followingCount, String profileImageUrl){
+	public User (int uid, String name, String screenName, String tagline, int followersCount, int followingCount, int tweetsCount, String profileImageUrl){
 		super();
 		this.uid = uid;
 		this.name = name;
@@ -41,6 +43,7 @@ public class User extends Model implements Parcelable{
 		this.profileImgUrl = profileImageUrl;
 		this.followersCount = followersCount;
 		this.followingCount = followingCount;
+		this.tweetsCount = tweetsCount;
 	}
 
 	public String getName() {
@@ -69,6 +72,11 @@ public class User extends Model implements Parcelable{
 	public int getFollowingCount() {
 		return followingCount;
 	}
+	
+	public int getTweetsCount() {
+		return tweetsCount;
+	}
+	
 	public static User fromJson(JSONObject json) {
 		User u = new User();
 		try{
@@ -79,6 +87,7 @@ public class User extends Model implements Parcelable{
 			u.profileImgUrl = json.getString("profile_image_url");
 			u.followersCount = json.getInt("followers_count");
 			u.followingCount = json.getInt("friends_count");
+			u.tweetsCount = json.getInt("statuses_count");
 		} catch (JSONException e){
 			e.printStackTrace();
 			return null;
@@ -91,7 +100,11 @@ public class User extends Model implements Parcelable{
 		 uid = in.readLong();
 		 name = in.readString();
 		 screenName = in.readString();
+		 tagline = in.readString();
 		 profileImgUrl= in.readString();
+		 followersCount = in.readInt();
+		 followingCount = in.readInt();
+		 tweetsCount = in.readInt();
 	 }
 	 
 	@Override
@@ -105,8 +118,11 @@ public class User extends Model implements Parcelable{
 		dest.writeLong(uid);		
 		dest.writeString(name);
 		dest.writeString(screenName);
+		dest.writeString(tagline);
 		dest.writeString(profileImgUrl);
-		
+		dest.writeInt(followersCount);
+		dest.writeInt(followingCount);
+		dest.writeInt(tweetsCount);
 	}
 
 	public static final Parcelable.Creator<User> CREATOR = new Parcelable.Creator<User>() {

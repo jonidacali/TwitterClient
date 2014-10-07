@@ -3,6 +3,7 @@ package com.codepath.apps.basictwitter.adapters;
 import java.util.List;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +12,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.codepath.apps.basictwitter.R;
+import com.codepath.apps.basictwitter.activities.ProfileActivity;
 import com.codepath.apps.basictwitter.models.Tweet;
+import com.codepath.apps.basictwitter.models.User;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 public class TweetArrayAdapter extends ArrayAdapter<Tweet> {
@@ -35,7 +38,7 @@ public class TweetArrayAdapter extends ArrayAdapter<Tweet> {
 		}
 		
 		//Find views within template
-		ImageView ivProfImage = (ImageView) v.findViewById(R.id.ivProfileImg);
+		final ImageView ivProfImage = (ImageView) v.findViewById(R.id.ivProfileImg);
 		TextView tvUserName = (TextView) v.findViewById(R.id.tvUserName);
 		TextView tvBody = (TextView) v.findViewById(R.id.tvBody);
 		TextView tvName = (TextView) v.findViewById(R.id.tvName);
@@ -47,6 +50,17 @@ public class TweetArrayAdapter extends ArrayAdapter<Tweet> {
 		ImageLoader imageLoader = ImageLoader.getInstance();
 		//populate views with tweet data
 		imageLoader.displayImage(tweet.getUser().getProfileImgUrl(), ivProfImage);
+		ivProfImage.setTag(tweet.getUser());
+		
+		ivProfImage.setOnClickListener(new View.OnClickListener() {
+			//@Override
+			public void onClick(View v) {
+				Intent i = new Intent (getContext(), ProfileActivity.class);
+				i.putExtra("user", (User) ivProfImage.getTag());
+				getContext().startActivity(i);
+			}        
+		});
+		
 		tvUserName.setText("@" + tweet.getUser().getScreenName());
 		tvName.setText(tweet.getUser().getName());
 		tvBody.setText(tweet.getBody());

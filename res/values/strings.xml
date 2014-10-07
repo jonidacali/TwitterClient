@@ -11,6 +11,7 @@
     <string name="tagline_label">Tagline</string>
     <string name="followers_label">Followers</string>
     <string name="following_label">Following</string>
+    <string name="tweets_label">Tweets</string>
     <string name="body_label">Body</string>
     <string name="relTime_label">Time posted</string>
     <string name="title_activity_photos">Flickr Photos</string>

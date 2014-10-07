@@ -218,18 +218,21 @@ public class Tweet extends Model implements Parcelable{
 		Date now = new Date(System.currentTimeMillis());		
 		DateFormat formatter = new SimpleDateFormat("EEE LLL d k:m:s zzz yyyy");
 		Date date;
+		formatter.setLenient(true);
+		String abrevRelTime = "";
 		try {
 			date = formatter.parse(this.getCreatedAt());
-			String relativeDate = DateUtils.getRelativeTimeSpanString(date.getTime(), now.getTime(), DateUtils.MINUTE_IN_MILLIS, DateUtils.FORMAT_ABBREV_RELATIVE).toString();
+			String relativeDate = DateUtils.getRelativeTimeSpanString(date.getTime(), now.getTime(), DateUtils.SECOND_IN_MILLIS).toString();
 			String[] time;
 			time = relativeDate.split(" ");
 			
-			String abrevRelTime = time[0]+time[1].substring(0, 1);
-			return abrevRelTime;
+			for(int i=0; i< time.length ; i++){
+				abrevRelTime += time[i];
+			}
 		} catch (ParseException e) {
 			e.printStackTrace();
 		} 
-		return null;
+		return abrevRelTime;
 	}
 
 	

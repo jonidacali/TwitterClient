@@ -2,30 +2,38 @@ package com.codepath.apps.basictwitter.activities;
 
 import org.json.JSONObject;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.codepath.apps.basictwitter.R;
 import com.codepath.apps.basictwitter.TwitterApplication;
+import com.codepath.apps.basictwitter.models.Tweet;
 import com.codepath.apps.basictwitter.models.User;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 public class ProfileActivity extends FragmentActivity {
-
+	User user = new User();
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_profile);		
-		loadProfileInfo();			
+		if(getIntent().getExtras() != null){
+			loadProfileInfo((User) getIntent().getExtras().getParcelable("user"));			
+		} else {
+			loadProfileInfo();
+		}
 	}
 	
-	public void loadProfileInfo(){
+	public void loadProfileInfo(User user){
+			populateProfileHeader(user);
+	} 
+	
+	public void loadProfileInfo() {
 		TwitterApplication.getRestClient().getCurrentUser(new JsonHttpResponseHandler(){
 			@Override
 			public void onSuccess(JSONObject json) {
@@ -34,13 +42,13 @@ public class ProfileActivity extends FragmentActivity {
 				populateProfileHeader(u);
 			}
 		});
-		
 	}
 
 
 	protected void populateProfileHeader(User u) {
 		TextView tvName = (TextView) findViewById(R.id.tvName);
 		TextView tvTagline = (TextView) findViewById(R.id.tvTagline);
+		TextView tvTweets = (TextView) findViewById(R.id.tvTweetsCount);
 		TextView tvFollowers = (TextView) findViewById(R.id.tvFollowers);
 		TextView tvFollowing = (TextView) findViewById(R.id.tvFollowing);
 		ImageView ivProfImage = (ImageView) findViewById(R.id.ivProfImage);
@@ -49,10 +57,11 @@ public class ProfileActivity extends FragmentActivity {
 		tvTagline.setText(u.getTagline());
 		tvFollowers.setText(Integer.valueOf(u.getFollowersCount()) + " " + getResources().getText(R.string.followers_label));
 		tvFollowing.setText(Integer.valueOf(u.getFollowingCount()) + " " + getResources().getText(R.string.following_label));
+		tvTweets.setText(Integer.valueOf(u.getTweetsCount()) + " " + getResources().getText(R.string.tweets_label));
 		
 		ivProfImage.setImageResource(android.R.color.transparent);
 		ImageLoader.getInstance().displayImage(u.getProfileImgUrl(), ivProfImage);
-}
+	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -61,15 +70,15 @@ public class ProfileActivity extends FragmentActivity {
 		return true;
 	}
 
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
-		int id = item.getItemId();
-		if (id == R.id.action_settings) {
-			return true;
-		}
-		return super.onOptionsItemSelected(item);
-	}
+//	@Override
+//	public boolean onOptionsItemSelected(MenuItem item) {
+//		// Handle action bar item clicks here. The action bar will
+//		// automatically handle clicks on the Home/Up button, so long
+//		// as you specify a parent activity in AndroidManifest.xml.
+//		int id = item.getItemId();
+//		if (id == R.id.action_settings) {
+//			return true;
+//		}
+//		return super.onOptionsItemSelected(item);
+//	}
 }
