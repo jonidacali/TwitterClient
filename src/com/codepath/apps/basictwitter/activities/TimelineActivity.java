@@ -16,8 +16,6 @@ import com.codepath.apps.basictwitter.fragments.MentionsTimelineFragment;
 import com.codepath.apps.basictwitter.listeners.FragmentTabListener;
 
 public class TimelineActivity extends FragmentActivity {
-//	private final int REQUEST_CODE_POST = 80;
-//	private final int REQUEST_CODE_REPLY = 120;
 	final Context context = this;
 	private final int REQUEST_CODE_POST = 80;
 //	private final int REQUEST_CODE_REPLY = 120;
@@ -26,8 +24,7 @@ public class TimelineActivity extends FragmentActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_timeline);
-		ActiveAndroid.setLoggingEnabled(true); 
-		
+		ActiveAndroid.setLoggingEnabled(true); 		
 		setupTabs();
 	}
 
@@ -73,7 +70,7 @@ public class TimelineActivity extends FragmentActivity {
 	}
 	
 	public void viewProfile(MenuItem mi){
-		Intent i = new Intent(this, ProfileActivity.class);
+		Intent i = new Intent(this, ProfileActivity.class);		
 		startActivity(i);
 	}
 	

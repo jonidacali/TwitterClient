@@ -1,16 +1,13 @@
 package com.codepath.apps.basictwitter.helpers;
 
-import java.util.ArrayList;
-
 import org.scribe.builder.api.Api;
 import org.scribe.builder.api.TwitterApi;
 
 import android.content.Context;
-import android.view.View;
 
+import com.codepath.apps.basictwitter.models.User;
 import com.codepath.oauth.OAuthBaseClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
 /*
@@ -63,10 +60,10 @@ public class TwitterClient extends OAuthBaseClient {
 		client.get(apiUrl, null, handler);
 	}
 	
-	public void getUserTimeline(long sinceId, long maxId, long userId, AsyncHttpResponseHandler handler) {
+	public void getUserTimeline(long sinceId, long maxId, User user, AsyncHttpResponseHandler handler) {
 		String apiUrl = getApiUrl("statuses/user_timeline.json");
 		RequestParams params =  new RequestParams();
-		params.put("user_id ", String.valueOf(userId));
+		params.put("user_id", String.valueOf(user.getUid()));
 		client.get(apiUrl,params, handler);
 	}
 	

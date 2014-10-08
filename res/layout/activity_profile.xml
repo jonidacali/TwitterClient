@@ -5,9 +5,8 @@
     tools:context="com.codepath.apps.basictwitter.activities.ProfileActivity" 
     android:background="#f5f8fa">
 
-    <fragment
+    <FrameLayout
         android:id="@+id/fragmentUserTimeline"
-        android:name="com.codepath.apps.basictwitter.fragments.UserTimelineFragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
