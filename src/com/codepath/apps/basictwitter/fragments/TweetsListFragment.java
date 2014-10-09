@@ -34,7 +34,6 @@ public abstract class TweetsListFragment extends Fragment {
 	private ArrayAdapter<Tweet> aTweets;
 	protected ListView lvTweets;
 	private Context context;
-//	private final int REQUEST_CODE_POST = 80;
 	private final int REQUEST_CODE_REPLY = 120;
 	long maxTweetId = Long.MAX_VALUE;
 	
@@ -101,56 +100,10 @@ public abstract class TweetsListFragment extends Fragment {
 		}
 	}
 
-//	public void homeTimelineTweetsFromApi(long since_id, long max_id){
-//		client.getHomeTimeline(since_id, max_id, new JsonHttpResponseHandler(){
-//			@Override
-//			public void onSuccess(JSONArray json) {
-//				ArrayList<Tweet> batch = Tweet.fromJSONArray(json);
-//				maxTweetId = updateMaxId(batch);
-//				addAll(batch);
-//				//Save tweets in db
-//				Tweet.saveTweetsArrayList(json);
-//			}
-//			
-//			@Override
-//			public void onFailure(Throwable e, String s) {
-//				Log.d("debug", e.toString());
-//				Log.d("debug", s.toString());
-//			}
-//		});
-//	}
-	
-//	public void homeTimelineTweetsFromDB(long since_id, long max_id){
-//		ArrayList<Tweet> batch = Tweet.getOrderedTweetsArrayList(since_id, max_id);
-//		maxTweetId = updateMaxId(batch);
-//		addAll(batch);
-//	}
-//	
-//	
-//	private void mentionsTimelineTweetsFromApi(long since_id, long max_id) {
-//		client.getMentionsTimeline(since_id, max_id, new JsonHttpResponseHandler(){
-//			@Override
-//			public void onSuccess(JSONArray json) {
-//				ArrayList<Tweet> batch = Tweet.fromJSONArray(json);
-//				maxTweetId = updateMaxId(batch);
-//				addAll(batch);
-//				//Save tweets in db
-//				Tweet.saveTweetsArrayList(json);
-//			}
-//			
-//			@Override
-//			public void onFailure(Throwable e, String s) {
-//				Log.d("debug", e.toString());
-//				Log.d("debug", s.toString());
-//			}
-//		});
-//		
-//	}
 	private long updateMaxId(ArrayList<Tweet> tweets) {
 		//iterate through tweets to find new maxId
 		long maxId = 0;
 		for(Tweet tweet : tweets){
-			long thisTweetId = tweet.getUid(); 
 			maxId = (tweet.getUid() < maxTweetId) ? (tweet.getUid() -1) : maxTweetId; 
 		}
 		return maxId;
@@ -168,6 +121,10 @@ public abstract class TweetsListFragment extends Fragment {
 	
 	public void addAll(ArrayList<Tweet> tweets){
 		aTweets.addAll(tweets);
+	}
+	
+	public void addTweet(Tweet tweet){
+		aTweets.insert(tweet, 0);
 	}
 	
 	abstract public void fireClientRequest(long sinceId, long maxId, JsonHttpResponseHandler handler);

@@ -1,5 +1,7 @@
 package com.codepath.apps.basictwitter.activities;
 
+import java.util.ArrayList;
+
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.content.Context;
@@ -13,12 +15,17 @@ import com.activeandroid.ActiveAndroid;
 import com.codepath.apps.basictwitter.R;
 import com.codepath.apps.basictwitter.fragments.HomeTimelineFragment;
 import com.codepath.apps.basictwitter.fragments.MentionsTimelineFragment;
+import com.codepath.apps.basictwitter.fragments.TweetsListFragment;
 import com.codepath.apps.basictwitter.listeners.FragmentTabListener;
+import com.codepath.apps.basictwitter.models.Tweet;
+import com.codepath.apps.basictwitter.models.User;
 
 public class TimelineActivity extends FragmentActivity {
 	final Context context = this;
 	private final int REQUEST_CODE_POST = 80;
-//	private final int REQUEST_CODE_REPLY = 120;
+	private final int REQUEST_CODE_REPLY = 120;
+	
+	TweetsListFragment home = null;	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -79,28 +86,20 @@ public class TimelineActivity extends FragmentActivity {
 	}
 	
 	
-//	@Override  
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data){  
-//		super.onActivityResult(requestCode, resultCode, data);                    
-//	    if(requestCode==REQUEST_CODE_POST && resultCode == RESULT_OK) {  
-//	    	String status = data.getStringExtra("status");
-//	    	client.postTweet(status, new JsonHttpResponseHandler(){
-//    			@Override
-//    			public void onSuccess(JSONObject json) {
-//    				Tweet newTweet = Tweet.fromJson(json);        
-//    			    aTweets.insert(newTweet, 0);
-//    		    	aTweets.notifyDataSetChanged();
-//    			}
-//    			
-//				@Override
-//    			public void onFailure(Throwable e, String s) {
-//    				Log.d("debug", e.toString());
-//    				Log.d("debug", s.toString());
-//    			}
-//    		});	
-//        }  
-//	    
-//	    if (requestCode == REQUEST_CODE_REPLY && resultCode == RESULT_OK){
+	@Override  
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){  
+		super.onActivityResult(requestCode, resultCode, data);                    
+	    if(requestCode==REQUEST_CODE_POST && resultCode == RESULT_OK) {  
+	    	Tweet tweet = data.getParcelableExtra("tweet");
+	    	getHomeTimelineFragment();
+	    	if (home != null) {
+	    		home.addTweet(tweet);
+	    	}
+        }  
+	    
+	    if (requestCode == REQUEST_CODE_REPLY && resultCode == RESULT_OK){
+	    	
+	    	
 //	    	String status = data.getStringExtra("status");
 //	    	long in_reply_to_status_id = data.getLongExtra("in_reply_to_status_id", 1L);
 //	    	client.replyToTweet(status, in_reply_to_status_id, new JsonHttpResponseHandler(){
@@ -116,7 +115,13 @@ public class TimelineActivity extends FragmentActivity {
 //					Toast.makeText(TimelineActivity.this, "Failed - try again", Toast.LENGTH_SHORT).show();
 //				}
 //	    	});
-//	    }
-//	}
+	    }
+	}
+	
+	public void getHomeTimelineFragment(){
+		if (home == null) {
+			home = (TweetsListFragment) getSupportFragmentManager().findFragmentByTag("first");
+		}
+	}
 	
 }

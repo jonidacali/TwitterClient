@@ -3,7 +3,8 @@ TwitterClient
 
 Week 4
 ==================
-Hours: 7
+Hours: 15
+View Twitter_v2.mp4 
 
 * User can switch between Timeline and Mention views using tabs.
     * User can view their home timeline tweets.
@@ -15,7 +16,7 @@ Hours: 7
     * User can see picture, tagline, # of followers, # of following, and tweets of clicked user.
     * Profile view should include that user's timeline
 
-
+Story that was present in week 3 but didn't make it for this week: Replying in the detailed view of a tweet
 
 Week 3
 ===================

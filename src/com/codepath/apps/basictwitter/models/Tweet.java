@@ -226,8 +226,8 @@ public class Tweet extends Model implements Parcelable{
 			String[] time;
 			time = relativeDate.split(" ");
 			
-			for(int i=0; i< time.length ; i++){
-				abrevRelTime += time[i];
+			if(time.length==3){
+				abrevRelTime = time[0]+time[1].substring(0,1);
 			}
 		} catch (ParseException e) {
 			e.printStackTrace();

@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.codepath.apps.basictwitter.R;
 import com.codepath.apps.basictwitter.TwitterApplication;
+import com.codepath.apps.basictwitter.models.Tweet;
 import com.codepath.apps.basictwitter.models.User;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -57,13 +58,29 @@ public class ComposeTweetActivity extends Activity{
 	
 	public void createTweet(View v){
 		String status = etTweetBody.getText().toString();  
-        Intent returnIntent=new Intent();  
+        final Intent returnIntent=new Intent();  
         if(status != null){
         	int msgLength = status.length();
         	if(msgLength > 0 && msgLength <= 140) {
-	        	returnIntent.putExtra("status",status);
-	        	setResult(RESULT_OK,returnIntent);  
-	        	finish();//finishing activity 
+	        	//returnIntent.putExtra("status",status);
+        		TwitterApplication.getRestClient().postTweet(status, new JsonHttpResponseHandler(){
+        			@Override
+        			public void onSuccess(JSONObject json) {
+        				Tweet newTweet = Tweet.fromJson(json);        
+//        			    aTweets.insert(newTweet, 0);
+//        		    	aTweets.notifyDataSetChanged();
+        				
+        				returnIntent.putExtra("tweet", newTweet);
+                		setResult(RESULT_OK, returnIntent);  
+        	        	finish();
+        			}
+        			
+    				@Override
+        			public void onFailure(Throwable e, String s) {
+        				Log.d("debug", e.toString());
+        				Log.d("debug", s.toString());
+        			}
+        		});	
         	} else if (msgLength > 140){
         		Toast.makeText(this, getResources().getText(R.string.label_no_tweet), Toast.LENGTH_SHORT).show();
         	}
