@@ -1,11 +1,12 @@
 TwitterClient
 =============
-
-Week 4
-==================
-Hours: 15
 View Twitter_v2.mp4 
-
+* User can sign in to Twitter using OAuth login
+* User can view the tweets from their home timeline
+    * User should be displayed the username, name, and body for each tweet
+    * User should be displayed the relative timestamp for each tweet "8m", "7h"
+    * User can view more tweets as they scroll with infinite pagination
+    * Optional: Links in tweets are clickable and will launch the web browser (see autolink)
 * User can switch between Timeline and Mention views using tabs.
     * User can view their home timeline tweets.
     * User can view the recent mentions of their username.
@@ -16,7 +17,7 @@ View Twitter_v2.mp4
     * User can see picture, tagline, # of followers, # of following, and tweets of clicked user.
     * Profile view should include that user's timeline
 
-Story that was present in week 3 but didn't make it for this week: Replying in the detailed view of a tweet
+//Story that was present in week 3 but didn't make it for this week: Replying in the detailed view of a tweet
 
 Week 3
 ===================
@@ -25,12 +26,7 @@ Hours:19
 
 Completed stories:
 
- * User can sign in to Twitter using OAuth login
- * User can view the tweets from their home timeline
-    * User should be displayed the username, name, and body for each tweet
-    * User should be displayed the relative timestamp for each tweet "8m", "7h"
-    * User can view more tweets as they scroll with infinite pagination
-    * Optional: Links in tweets are clickable and will launch the web browser (see autolink)
+ 
 
  * User can compose a new tweet:
     * User can click "Compose" icon on action bar on the top right
